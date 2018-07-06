@@ -8,3 +8,7 @@ CREATE TABLE flights (
 
 // show all tables
 \d
+
+
+// show values of table
+SELECT * FROM flights;
