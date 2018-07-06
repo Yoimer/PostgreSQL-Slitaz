@@ -1,0 +1,1 @@
+psql -U postgres // chane user to psql by default
