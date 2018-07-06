@@ -1,1 +1,5 @@
+/etc/init.d/postgresql start // start postgresql server
+
+/etc/init.d/postgresql stop // start postgresql server
+
 psql -U postgres // chane user to psql by default
