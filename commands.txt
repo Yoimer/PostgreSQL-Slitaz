@@ -6,3 +6,136 @@ psql -U postgres // chane user to psql by default
 
 // roles in postgresql on a vps
 https://www.digitalocean.com/community/tutorials/how-to-use-roles-and-manage-grant-permissions-in-postgresql-on-a-vps--2
+
+
+//lubuntu commands (cat /etc/os-release)
+
+NAME="Ubuntu"
+VERSION="18.04 LTS (Bionic Beaver)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 18.04 LTS"
+VERSION_ID="18.04"
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+VERSION_CODENAME=bionic
+UBUNTU_CODENAME=bionic
+
+////////////////////////////////access to progress//////////////////////////////////
+
+sudo -i -u postgres
+
+////////////////////////roles//////////////////////////////////////////
+
+////How to Create Roles in PostgreSQL
+There are a number of different ways to create roles for Postgres. It is possible to create roles from within Postgres, or from the command line.
+
+How to Create Roles From Within PostgreSQL
+The most basic way of creating new roles is from within the Postgres prompt interface.
+
+You can create a new role with the following syntax:
+
+CREATE ROLE new_role_name;
+Let's create a new role called "demo_role":
+
+CREATE ROLE demo_role;
+CREATE ROLE
+If we check the defined users again, we will get the following:
+
+\du
+                             List of roles
+ Role name |                   Attributes                   | Member of 
+-----------+------------------------------------------------+-----------
+ demo_role | Cannot login                                   | {}
+ postgres  | Superuser, Create role, Create DB, Replication | {}
+
+The only information we are given is that the new role has no login privileges. This is okay for now.
+How to Create Roles from the Command Line
+An alternative method of creating roles is using the "createuser" command.
+
+Get out of the PostgreSQL command prompt for a moment by typing:
+
+\q
+Create a role called "test_user" with the following command:
+
+createuser test_user
+Shall the new role be a superuser? (y/n) n
+Shall the new role be allowed to create databases? (y/n) n
+Shall the new role be allowed to create more new roles? (y/n) n
+You will be asked a series of questions that will define some initial permissions for the new role. If you answer "n" for no to all of these prompts, you will create a user similar to the previous user we created.
+
+We can log back into the Postgres prompt and issue the "\du" command again to see the differences between the two new roles:
+
+psql
+\du
+                             List of roles
+ Role name |                   Attributes                   | Member of 
+-----------+------------------------------------------------+-----------
+ demo_role | Cannot login                                   | {}
+ postgres  | Superuser, Create role, Create DB, Replication | {}
+ test_user |                                                | {}
+As you can see, these commands do not produce identical results. The user created from the command line does not have "Cannot login" listed as an attribute.
+
+
+
+
+
+///////////////////////////////////login with differents users/////////////////////////////////////////////
+
+How to Log In as a Different User in PostgreSQL
+By default, users are only allowed to login locally if the system username matches the PostgreSQL username.
+
+We can get around this by either changing the login type, or by specifying that PostgreSQL should use the loopback network interface, which would change the connection type to remote, even though it is actually a local connection.
+
+We will discuss the second option. First, we need to give the user we'd like to connect as a password so that we can authenticate.
+
+Give the "test_user" a password with the following command:
+
+\password test_user
+You will be prompted to enter and confirm a password. Now, exit the PostgreSQL interface and exit back to your normal user.
+
+\q
+exit
+PostgreSQL assumes that when you log in, you will be using a username that matches your operating system username, and that you will be connecting to a database with the same name as well.
+
+This is not the case with the situation we are demonstrating, so we will need to explicitly specify the options we want to use. Use the following syntax:
+
+psql -U user_name -d database_name -h 127.0.0.1 -W
+The "user_name" should be replaced with the username we want to connect with. Similarly, the "database_name" should be the name of an existing database that you have access to.
+
+The "-h 127.0.0.1" section is the part that specifies that we will be connecting to the local machine, but through a network interface, which allows us to authenticate even though our system username does not match. The "-W" flag tells PostgreSQL that we will be entering a password.
+
+To log in with our "test_user" we can issue the following command:
+
+psql -U test_user -d postgres -h 127.0.0.1 -W
+Password for user test_user:
+You will need to enter the password you configured. In our example, we use the database "postgres". This is the default database set up during install.
+
+If you attempt to perform some actions in this session, you will see that you don't have the ability to do many things. This is because we did not give "test_user" permissions to administer many things.
+
+Let's exit and get back into the administrative session:
+
+\q
+sudo su -i -u postgres
+psql
+
+///////////////////////////////my examples and own credentials//////////////////////////////
+
+////creating role
+CREATE ROLE cs50;
+
+///creating password to role
+\password cs50; (when prompting for password, my case was 12345)
+
+///creating database (I named it, cs50example)
+sudo -u postgres psql -c 'create database cs50example;'
+
+//giving all privileges to role (cs50) on db (c50example)
+sudo -u postgres psql -c 'grant all privileges on database cs50example to cs50;'
+
+//logging with role and password
+psql -U cs50 -d cs50example -h 127.0.0.1 -W
+
+
