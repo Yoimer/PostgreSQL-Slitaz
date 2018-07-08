@@ -138,4 +138,11 @@ sudo -u postgres psql -c 'grant all privileges on database cs50example to cs50;'
 //logging with role and password
 psql -U cs50 -d cs50example -h 127.0.0.1 -W
 
-
+// how to invoke Flask (it is not like flask_ask)
+add the FLASK_APP variable to the enviroment
+including the python script where resides the code.
+in linux and our case, this is like this:
+export FLASK_APP=application.py
+for starting the server
+flask run (local connections)
+flask run --host=0.0.0.0 (external conenctions)
