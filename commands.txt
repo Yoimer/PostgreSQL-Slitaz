@@ -146,3 +146,20 @@ export FLASK_APP=application.py
 for starting the server
 flask run (local connections)
 flask run --host=0.0.0.0 (external conenctions)
+
+///Heroku Installation
+
+Standalone version
+The standalone install is a simple tarball with a binary that is useful in scripted environments or where there is restricted access (non-sudo). These are sample instructions that can be modified to fit your environment. It contains its own node.js binary and will autoupdate like the above install methods.
+
+Download the tarball and extract it so that you can access the binary from your PATH. For example:
+
+Don’t just copy and paste! Some modification is required. (see below)
+
+# replace REPLACE_ME_OS/REPLACE_ME_ARCH with values as noted below
+$ wget https://cli-assets.heroku.com/heroku-cli/channels/stable/heroku-cli-REPLACEME_OS-REPLACE_ME_ARCH.tar.gz -O heroku.tar.gz
+$ tar -xvzf heroku.tar.gz
+$ mkdir -p /usr/local/lib /usr/local/bin
+$ mv heroku-cli-v6.x.x-darwin-64 /usr/local/lib/heroku
+$ ln -s /usr/local/lib/heroku/bin/heroku /usr/local/bin/heroku
+Where REPLACE_ME_OS is one of “linux”, “darwin”, “windows” and REPLACE_ME_ARCH is one of “x64” or “x86” You also must replace “6.x.x” with the actual version.
