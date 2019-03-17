@@ -220,3 +220,74 @@ GRANT ALL PRIVILEGES ON DATABASE pruebadb TO prueba;
 /////log out postgre user(\q) and log in the role just created(prueba)
 
 psql -U prueba -d pruebadb -h 127.0.0.1 -W
+
+
+
+/*********************************************************************************************
+
+///// How to install PostgreSQL 10.4 on Windows
+
+/*BEFORE INSTALLING READ THIS!*/
+
+Download file from https://get.enterprisedb.com/postgresql/postgresql-10.7-1-windows-x64.exe
+
+It is not recomended to install in the default location which is ProgramFiles since 
+this will place your database files in the Programs directory as well.
+
+Try C:\PostgreSQL instead
+
+// Read all from https://www.guru99.com/download-install-postgresql.html (AGAIN DON'T LEAVE SETTINGS from default)
+
+
+/********************Windows supplement
+
+It is not recomended to install in the default location which is ProgramFiles since this will place your database files in the Progams directory as well.
+
+If the installer fails durring the C++ 2013 runtime install, you probably already have a version of C++ 2013.
+You can solve this issue by openening a cmd window in your installer directory and enter:
+postgresql-10.4-1-windows-x64.exe --install_runtimes 0
+
+Be sure to select a directory other than ProgramFiles.
+The installer should by default install PostgreSQL as a service and start the service.
+
+In order to start and stop the service you will need to be running a cmd window as administrator or open the Windows Services dialog.
+
+You can use the following cmd commands to start and stop the PostgreSQL service.
+This assumes your service was named "postgresql-x64-10"
+The Windows Services dialog will have the exact name of your installed service if you need to confirm this.
+
+net start postgresql-x64-10
+net stop postgresql-x64-10
+In order to use the documented pg_ctl command, you will need to set the following environmental variables in your system.
+The following assumes you installed PostgreSQL in C:\PostgreSQL
+
+Add to System variables Path:
+C:\PostgreSQL\10\bin
+
+Create the following new System variables
+
+PGDATA
+C:\PostgreSQL\10\data
+
+PGDATABASE
+postgres
+
+PGUSER
+postgres
+
+PGPORT
+5432
+
+PGLOCALEDIR
+C:\PostgreSQL\10\share\locale
+
+If your Windows PostgreSQL service is still running, you should now be able to control the server via the documented pg_ctl commands documented here
+
+If you open a new cmd window and type pg_ctl status you should see something like
+
+pg_ctl: server is running (PID: 9344)
+C:/PostgreSQL/10/bin/postgres.exe "-D" "C:\PostgreSQL\10\data
+Be aware that these commands override your windows service commands.
+This means that if you stop and start the server via the pg_ctl commands it will then be running under the cmd and not the service, therefore; if you close the current cmd window it will shut down your server.
+
+
