@@ -163,3 +163,33 @@ $ mkdir -p /usr/local/lib /usr/local/bin
 $ mv heroku-cli-v6.x.x-darwin-64 /usr/local/lib/heroku
 $ ln -s /usr/local/lib/heroku/bin/heroku /usr/local/bin/heroku
 Where REPLACE_ME_OS is one of “linux”, “darwin”, “windows” and REPLACE_ME_ARCH is one of “x64” or “x86” You also must replace “6.x.x” with the actual version.
+
+
+/////////settings in linux (psql (PostgreSQL) 10.4 (Ubuntu 10.4-0ubuntu0.18.04))
+
+/etc/init.d/postgresql start // start postgresql server
+
+/etc/init.d/postgresql stop // start postgresql server
+
+///////connecting to server
+
+sudo -u postgres psql
+
+then your connected with the postgres server shell. This looks something like this:
+postgres=# 
+
+/////creating role with password (prueba 12345)
+
+CREATE user prueba with password '12345';
+
+/////creating db (pruebadb)
+
+CREATE DATABASE pruebadb;
+
+////grants privileges in db (pruebadb) to role (prueba)
+
+GRANT ALL PRIVILEGES ON DATABASE pruebadb TO prueba;
+
+/////log out postgre user(\q) and log in the role just created(prueba)
+
+psql -U prueba -d pruebadb -h 127.0.0.1 -W
