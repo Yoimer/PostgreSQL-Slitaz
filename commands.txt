@@ -193,3 +193,30 @@ GRANT ALL PRIVILEGES ON DATABASE pruebadb TO prueba;
 /////log out postgre user(\q) and log in the role just created(prueba)
 
 psql -U prueba -d pruebadb -h 127.0.0.1 -W
+
+
+/*********************************************************************************************
+
+/////////settings in Windows 7x64 psql (PostgreSQL) 10.4
+
+///////connecting to server
+psql -U postgres
+
+then your connected with the postgres server shell. This looks something like this:
+postgres=# 
+
+/////creating role with password (prueba 12345)
+
+CREATE user prueba with password '12345';
+
+/////creating db (pruebadb)
+
+CREATE DATABASE pruebadb;
+
+////grants privileges in db (pruebadb) to role (prueba)
+
+GRANT ALL PRIVILEGES ON DATABASE pruebadb TO prueba;
+
+/////log out postgre user(\q) and log in the role just created(prueba)
+
+psql -U prueba -d pruebadb -h 127.0.0.1 -W
